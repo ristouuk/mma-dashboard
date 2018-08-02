@@ -18,4 +18,20 @@ plot_submission_victories <- function(data_ufc_method_clean = NULL) {
     theme_minimal()
 }
 
-
+plot_victory_method <- function(data_ufc_method_clean = NULL) {
+data_ufc_method_clean %>% 
+  filter(method == c("KO", "DEC", "SUB")) %>% 
+  count(method) %>% 
+  mutate(proportion = n / sum(n)) %>% 
+  ggplot(aes(x = method, y = proportion)) +
+  geom_col(fill = "steelblue3") +
+  labs(
+    x = NULL,
+    y = "Proportion", 
+    title = "How fights in the UFC are won, 1993-2016",
+    caption = "Source: https://www.reddit.com/r/datasets/comments/47a7wh/ufc_fights_and_fighter_data/"
+  ) +
+  scale_y_continuous(labels = percent) +
+  scale_x_discrete(labels = c("Decision", "Knockout", "Submission")) +
+  theme_minimal()
+}
