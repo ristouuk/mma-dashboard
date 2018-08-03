@@ -2,32 +2,33 @@
 title: "MMA dashboard"
 output: 
   flexdashboard::flex_dashboard:
-    orientation: columns
-    vertical_layout: fill
+    vertical_layout: scroll
 ---
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
 library(here)
 library(tidyverse)
-source(here("functions"))
+library(scales)
+library(kableExtra)
+library(janitor)
+source(here("functions", "tables.R"))
 ```
 
 ```{r data}
-
+data_ufc <- readRDS(here("data", "data-ufc.rds"))
+data_ufc_method_clean <- readRDS(here("data", "data-ufc-method-clean.rds"))
+data_top_5_most_wins <- readRDS(here("data", "data-top-5-most-wins.rds"))
 ```
 
-Column {data-width=650}
+Column 
 -----------------------------------------------------------------------
 
-### Chart A
+### UFC fighters with most wins
 
 ```{r}
-
+table_top_5_wins(data_top_5_most_wins)
 ```
-
-Column {data-width=350}
------------------------------------------------------------------------
 
 ### Chart B
 
