@@ -1,7 +1,6 @@
-#---- Functions for cleaning data ----
+#---- Functions for cleaning and wrangling data ----
 
 data_clean_method <- function(data_ufc = NULL) {
-  
   data_ufc$method_d <- str_replace(data_ufc$method_d, "Elbow$", "Elbows")
   data_ufc$method_d <- str_replace(data_ufc$method_d, "Rear Naked Choke", "Rear-Naked Choke")
   data_ufc$method_d <- str_replace(data_ufc$method_d, "Submission \\(Rear-Naked Choke", "Rear-Naked Choke")
@@ -20,5 +19,10 @@ data_clean_method <- function(data_ufc = NULL) {
   data_ufc$method_d <- str_replace(data_ufc$method_d, "Punch$", "Punches")
   data_ufc$method_d <- str_replace(data_ufc$method_d, "Elbows and Punches", "Punches and Elbows")
   data_ufc$method_d <- str_replace(data_ufc$method_d, "Knee$", "Knees")
-  
+}
+
+data_top_5_most_wins <- function(data_top_5_most_wins = NULL) {
+data_top_5_most_wins <- data_ufc_method_clean %>% 
+  filter(f1name == c("Georges St. Pierre", "Matt Hughes", 
+                     "Anderson Silva", "Gleison Tibau", "Michael Bisping"))
 }
