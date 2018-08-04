@@ -27,16 +27,17 @@ data_ufc_method_clean %>%
   filter(method == c("KO", "DEC", "SUB")) %>% 
   count(method) %>% 
   mutate(proportion = n / sum(n)) %>% 
-  ggplot(aes(x = method, y = proportion)) +
+  ggplot(aes(x = method, y = n)) +
   geom_col(fill = "steelblue3") +
   labs(
     x = NULL,
-    y = "Proportion", 
+    y = "Count", 
     title = "How fights are won in the UFC, 1993-2016",
     caption = "Source: https://www.reddit.com/r/datasets/comments/47a7wh/ufc_fights_and_fighter_data/"
   ) +
-  scale_y_continuous(labels = percent) +
   scale_x_discrete(labels = c("Decision", "Knockout", "Submission")) +
+    geom_text(aes(label = percent(proportion)),
+              vjust = -0.9, size = 3) +    
   theme_minimal()
 }
  
@@ -57,5 +58,26 @@ data_ufc_method_clean %>%
   ) +
     geom_text(aes(label = percent(proportion)),
               hjust = -0.1, vjust = 0.45, size = 3) +  
+  theme_minimal()
+}
+
+plot_which_round_fights_end <- function(data_ufc_method_clean = NULL) {
+data_ufc_method_clean %>% 
+  select(f1name, round) %>% 
+  select(-f1name) %>% 
+  group_by(round) %>% 
+  count(round) %>%
+  ungroup(round) %>% 
+  mutate(proportion = n / sum(n)) %>% 
+  ggplot(aes(x = round, y = n)) +
+  geom_col(fill = "steelblue3") +
+  geom_text(aes(label = percent(proportion)),
+            vjust = -0.9, size = 3) + 
+  labs(
+    x = NULL,
+    y = "Count", 
+    title = "Which round fights end in the UFC, 1993-2016",
+    caption = "Source: https://www.reddit.com/r/datasets/comments/47a7wh/ufc_fights_and_fighter_data/"
+  ) +
   theme_minimal()
 }
