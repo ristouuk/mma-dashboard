@@ -13,6 +13,7 @@ library(scales)
 library(kableExtra)
 library(janitor)
 source(here("functions", "tables.R"))
+source(here("functions", "plots.R"))
 ```
 
 ```{r data}
@@ -30,15 +31,26 @@ Column
 table_top_5_wins(data_top_5_most_wins)
 ```
 
-### Chart B
+### How fights are won
 
 ```{r}
-
+plot_victory_method(data_ufc_method_clean)
 ```
 
-### Chart C
+### What submission methods are most successful
 
 ```{r}
-
+plot_submission_victories(data_ufc_method_clean)
 ```
 
+### What knockout methods are most successful
+
+```{r}
+plot_knockout_victories(data_ufc_method_clean)
+```
+
+### Which round fights end
+
+```{r}
+plot_which_round_fights_end(data_ufc_method_clean)
+```
