@@ -5,7 +5,8 @@ plot_submission_victories <- function(data_ufc_method_clean = NULL) {
     filter(method == "SUB") %>%
     filter(method_d != "Punches") %>% 
     count(method_d) %>% 
-    filter(n >= 10) %>% 
+    filter(n >= 10) %>%
+    mutate(proportion = n / sum(n)) %>% 
     ggplot(aes(x = reorder(x = factor(method_d), X = n), y = n)) +
     geom_col(fill = "steelblue3") +
     coord_flip() +
@@ -15,6 +16,9 @@ plot_submission_victories <- function(data_ufc_method_clean = NULL) {
       title = "Submission victories in the UFC, 1993-2016",
       caption = "Source: https://www.reddit.com/r/datasets/comments/47a7wh/ufc_fights_and_fighter_data/"
     ) +
+    ylim(0, 300) +
+    geom_text(aes(label = percent(proportion)),
+              hjust = -0.1, vjust = 0.45, size = 3) +
     theme_minimal()
 }
 
@@ -28,7 +32,7 @@ data_ufc_method_clean %>%
   labs(
     x = NULL,
     y = "Proportion", 
-    title = "How fights are wrong in the UFC, 1993-2016",
+    title = "How fights are won in the UFC, 1993-2016",
     caption = "Source: https://www.reddit.com/r/datasets/comments/47a7wh/ufc_fights_and_fighter_data/"
   ) +
   scale_y_continuous(labels = percent) +
@@ -36,4 +40,22 @@ data_ufc_method_clean %>%
   theme_minimal()
 }
  
-
+plot_knockout_victories <- function(data_ufc_method_clean = NULL) {
+data_ufc_method_clean %>% 
+  filter(method == "KO") %>% 
+  count(method_d) %>% 
+  filter(n > 15) %>% 
+  mutate(proportion = n / sum(n)) %>%  
+  ggplot(aes(x = reorder(x = factor(method_d), X = n), y = n)) +
+  geom_col(fill = "steelblue3") +
+  coord_flip() +
+  labs(
+    x = NULL,
+    y = "Count", 
+    title = "Knockout victories in the UFC, 1993-2016",
+    caption = "Source: https://www.reddit.com/r/datasets/comments/47a7wh/ufc_fights_and_fighter_data/"
+  ) +
+    geom_text(aes(label = percent(proportion)),
+              hjust = -0.1, vjust = 0.45, size = 3) +  
+  theme_minimal()
+}
